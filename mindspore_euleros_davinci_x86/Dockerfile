@@ -12,13 +12,14 @@ ENV PYTHON_ROOT_PATH /usr/local/python/python373
 RUN repo_path=/etc/yum.repos.d/euleros.repo \
     && echo "[base]" > ${repo_path} \
     && echo "name=EulerOS-2.0SP5 base" >> ${repo_path} \
-    && echo "baseurl=http://repo.huaweicloud.com/euler/2.5/os/x86_64/" >> ${repo_path} \
+    && echo "baseurl=http://117.78.1.88:82/mindspore_euleros/repo/EulerOS-V2.0SP5-x86_64-dvd-20190709/" >> ${repo_path} \
     && echo "enabled=1" >> ${repo_path} \
     && echo "gpgcheck=1" >> ${repo_path} \
-    && echo "gpgkey=http://repo.huaweicloud.com/euler/2.5/os/RPM-GPG-KEY-EulerOS" >> ${repo_path}
+    && echo "gpgkey=http://117.78.1.88:82/mindspore_euleros/repo/EulerOS-V2.0SP5-x86_64-dvd-20190709/RPM-GPG-KEY-EulerOS" >> ${repo_path}
 
 # Install base tools
-RUN yum update \
+RUN rpm --rebuilddb \
+    && yum update \
     && yum install -y vim \
     && yum install -y wget \
     && yum install -y xz \
@@ -30,7 +31,8 @@ RUN yum update \
     && yum install -y subversion
 
 # Install compile tools
-RUN yum install -y gcc \
+RUN rpm --rebuilddb \
+    && yum install -y gcc \
     && yum install -y gcc-c++ \
     && yum install -y gcc-gfortran \
     && yum install -y make \
@@ -38,7 +40,8 @@ RUN yum install -y gcc \
     && yum install -y patch
 
 # Install python(root)
-RUN yum install -y libffi-devel zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel \
+RUN rpm --rebuilddb \
+    && yum install -y libffi-devel zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel \
     && cd /tmp \
     && rm -f /tmp/Python-3.7.3.tar.xz \
     && wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tar.xz \
@@ -141,4 +144,13 @@ RUN sed -i 's/#   StrictHostKeyChecking ask/    StrictHostKeyChecking no/g' /etc
     && echo "export TZ='Asia/Shanghai'" >> /etc/profile \
     && export MINDSPORE_CMD="su mindspore_ci -s /bin/bash -c " \
     && ${MINDSPORE_CMD} "echo export TZ='Asia/Shanghai' >> ~/.bashrc"
+
+# Set yum source(huaweicloud)
+RUN repo_path=/etc/yum.repos.d/euleros.repo \
+    && echo "[base]" > ${repo_path} \
+    && echo "name=EulerOS-2.0SP5 base" >> ${repo_path} \
+    && echo "baseurl=http://repo.huaweicloud.com/euler/2.5/os/x86_64/" >> ${repo_path} \
+    && echo "enabled=1" >> ${repo_path} \
+    && echo "gpgcheck=1" >> ${repo_path} \
+    && echo "gpgkey=http://repo.huaweicloud.com/euler/2.5/os/RPM-GPG-KEY-EulerOS" >> ${repo_path}
 
