@@ -19,6 +19,5 @@ mount -t iso9660 -o loop ${CURR_DIR}/EulerOS-V2.0SP5-x86_64-dvd.iso ${mount_path
 cd ${CURR_DIR}/../euleros-docker-images/scripts
 export OS_VERSION=2.5
 export ISO_PATH=${mount_path}
-export RPM_ROOT=${CURR_DIR}/../euleros-docker-images/scripts/rootfs
+export RPM_ROOT=$(cd ${CURR_DIR}/../;pwd)/euleros-docker-images/scripts/rootfs
 bash generate.sh
-

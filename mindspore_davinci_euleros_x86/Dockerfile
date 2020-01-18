@@ -1,5 +1,5 @@
-# Base image euleros:2.8
-FROM euleros:2.8
+# Base image euleros_x86:2.5
+FROM euleros_x86:2.5
 MAINTAINER tommylike <tommylikehu@gmail.com>
 
 # Set env
@@ -11,7 +11,7 @@ ENV PYTHON_ROOT_PATH /usr/local/python/python373
 # Set yum source
 RUN repo_path=/etc/yum.repos.d/euleros.repo \
     && echo "[base]" > ${repo_path} \
-    && echo "name=EulerOS-2.0SP8 base" >> ${repo_path} \
+    && echo "name=EulerOS-2.0SP5 base" >> ${repo_path} \
     && echo "baseurl=http://117.78.1.88:82/mindspore_euleros/repo/EulerOS-V2.0SP5-x86_64-dvd-20190709/" >> ${repo_path} \
     && echo "enabled=1" >> ${repo_path} \
     && echo "gpgcheck=1" >> ${repo_path} \
